@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+stl/
+*.gcode
+.DS_Store
+.claude/

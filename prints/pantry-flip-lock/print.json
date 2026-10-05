@@ -1,0 +1,10 @@
+{
+  "title": "Pantry flip-bar lock",
+  "summary": "A toddler lock that ties two pantry doors together: a flip-down bar with a hook, a printed drilling template, all generated from one parametric Python model.",
+  "date": "2026-10-04",
+  "cover": "docs/cover.jpg",
+  "material": "PLA",
+  "print_time": "about 2 h",
+  "parts": "5 parts + template",
+  "tags": ["parametric", "python", "home", "hardware"]
+}

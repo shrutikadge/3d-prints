@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pantry flip-bar lock · 3D Prints</title>
+<meta name="description" content="A toddler lock that ties two pantry doors together: a flip-down bar with a hook, a printed drilling template, all generated from one parametric Python model.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pantry flip-bar lock · 3D Prints">
+<meta property="og:description" content="A toddler lock that ties two pantry doors together: a flip-down bar with a hook, a printed drilling template, all generated from one parametric Python model.">
+<meta property="og:image" content="https://shrutikadge.github.io/3d-prints/prints/pantry-flip-lock/docs/cover.jpg">
+<meta property="og:url" content="https://shrutikadge.github.io/3d-prints/prints/pantry-flip-lock/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="site"><a href="../../index.html" class="brand">3D Prints</a>
+<a class="gh" href="https://github.com/shrutikadge/3d-prints">GitHub</a></header>
+<main class="article">
+<p class="crumb"><a href="../../index.html">← All prints</a></p>
+<h1>Pantry flip-bar lock</h1>
+<p class="lede">A toddler lock that ties two pantry doors together: a flip-down bar with a hook, a printed drilling template, all generated from one parametric Python model.</p>
+<p class="meta"><span class="chip">PLA</span><span class="chip">about 2 h</span><span class="chip">5 parts + template</span><span class="date">2026-10-04</span></p>
+<p>A 3D-printed flip-bar lock that ties two cabinet-style pantry doors together to keep a toddler out. The whole thing is parametric Python: every part and the drilling template come from one set of numbers.</p>
+<blockquote class="note">
+<p><strong>Not a safety device.</strong> This is an untested hobby print, not a certified child-safety product. PLA can creep, crack or fail under load. Use it at your own risk, check it regularly, and don't rely on it to keep a child away from anything dangerous.</p>
+</blockquote>
+<p><img alt="Installed lock, exploded parts, drilling template and code" src="docs/collage.jpg" /></p>
+<h2>How it works</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base</strong> (left door)</td>
+<td>Plate with a round boss the bar pivots on</td>
+</tr>
+<tr>
+<td><strong>Bar</strong></td>
+<td>Flips down; its downward-open hook drops over the post</td>
+</tr>
+<tr>
+<td><strong>Keeper</strong> (right door)</td>
+<td>Plate with the post the hook sits on</td>
+</tr>
+<tr>
+<td><strong>Washers</strong> ×2</td>
+<td>Sit under the pivot and post screw heads and keep the bar on</td>
+</tr>
+<tr>
+<td><strong>Spacers</strong> (optional)</td>
+<td>1.5 / 3 mm, for doors whose fronts aren't level with each other</td>
+</tr>
+<tr>
+<td><strong>Template</strong></td>
+<td>0.6 mm sheet: lines up on the gap, four holes to mark the screw positions</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Locked:</strong> the bar lies across the gap with its hook over the post, so neither door can swing open.</li>
+<li><strong>Unlocked:</strong> lift the hook off the post and let the bar hang down.</li>
+<li><strong>No print-in-place hinges:</strong> the bar turns on a screw through a printed boss with about 0.5 mm of clearance, so nothing can fuse during printing.</li>
+<li><strong>Strength:</strong> every part prints flat, so the load runs along the extrusion lines rather than across layer bonds.</li>
+</ul>
+<p><img alt="Front view and section" src="docs/assembly.png" /></p>
+<h2>Generate the parts</h2>
+<pre><code class="language-bash">cd prints/pantry-flip-lock
+python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+.venv/bin/python latch.py        # -&gt; stl/base.stl, bar.stl, keeper.stl, washer.stl, shim_*.stl
+.venv/bin/python template.py     # -&gt; stl/template.stl (+ docs/template.png)
+</code></pre>
+<p>Every dimension is a parameter in <code>latch.py</code>. Override any of them with JSON:</p>
+<pre><code class="language-bash">.venv/bin/python latch.py '{&quot;BAR_T&quot;: 8, &quot;D&quot;: 72}'
+.venv/bin/python template.py     # the template reads the same parameters, so it always matches
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>D</code></td>
+<td>68</td>
+<td>Pivot-to-post distance (mm)</td>
+</tr>
+<tr>
+<td><code>BAR_T</code> / <code>BAR_W</code></td>
+<td>7 / 24</td>
+<td>Bar thickness / width</td>
+</tr>
+<tr>
+<td><code>SLOT_W</code></td>
+<td>12</td>
+<td>Hook slot width (the post is 11 mm, giving ±0.5 mm play)</td>
+</tr>
+<tr>
+<td><code>PLATE_T</code></td>
+<td>4</td>
+<td>Plate thickness</td>
+</tr>
+<tr>
+<td><code>SCREW_PITCH</code></td>
+<td>22</td>
+<td>Pivot/post to plate screw distance</td>
+</tr>
+<tr>
+<td><code>HOLE_D</code> / <code>CSK_D</code></td>
+<td>4.6 / 8.8</td>
+<td>Screw clearance hole / countersink (#8 or #6)</td>
+</tr>
+</tbody>
+</table>
+<p><code>render.py</code> and <code>exploded.py</code> redraw the images in <code>docs/</code>.</p>
+<h2>Printing</h2>
+<p>PLA. Everything prints flat with no supports.
+- <strong>Lock parts:</strong> 0.28 mm layers, 4 perimeters, 30 % gyroid infill. About 2 h, 24 g for bar + base + keeper + 2 washers.
+- <strong>Template:</strong> 0.2 mm layers. About 16 min.</p>
+<h2>Hardware</h2>
+<p>Four flat-head wood screws, #8 (or #6):
+- 2 × <strong>⅝"</strong> through the plates (template dots 1 and 3).
+- 2 × <strong>1"</strong> through a washer and the pivot or post (dots 2 and 4).</p>
+<p>This assumes doors at least ⅝" thick. Use pilot holes in MDF.</p>
+<h2>Install</h2>
+<ol>
+<li>Tape the template across the gap with the V notches over the gap, the arrow up and <strong>L</strong> on the left door. Mark dots 1–4.</li>
+<li><strong>Left door:</strong> screw 1 (⅝"), then the bar on the boss, a washer on top, and screw 2 (1").</li>
+<li><strong>Right door:</strong> screw 3 (⅝"), snug but not tight. Hook the bar over the post so the keeper swings into line, then fit screw 4 (1") through the washer and post.</li>
+<li>If the bar rubs or sits crooked because one door sits forward, put a spacer under the lower plate.</li>
+</ol>
+<h2>How it was made</h2>
+<p>Designed with <a href="https://claude.com/claude-code">Claude Code</a> as a parametric CSG model using <a href="https://github.com/elalish/manifold">manifold3d</a> and <a href="https://github.com/mikedh/trimesh">trimesh</a>. It was sliced with the PrusaSlicer CLI and printed on an Ender-3 Pro running Klipper, with jobs uploaded and monitored through the Moonraker API.</p>
+<h2>License</h2>
+<p>MIT. See <a href="../../LICENSE">LICENSE</a>.</p>
+<h2>Files</h2>
+<ul class="files"><li><a href="https://github.com/shrutikadge/3d-prints/blob/main/prints/pantry-flip-lock/exploded.py"><code>exploded.py</code></a></li><li><a href="https://github.com/shrutikadge/3d-prints/blob/main/prints/pantry-flip-lock/latch.py"><code>latch.py</code></a></li><li><a href="https://github.com/shrutikadge/3d-prints/blob/main/prints/pantry-flip-lock/render.py"><code>render.py</code></a></li><li><a href="https://github.com/shrutikadge/3d-prints/blob/main/prints/pantry-flip-lock/requirements.txt"><code>requirements.txt</code></a></li><li><a href="https://github.com/shrutikadge/3d-prints/blob/main/prints/pantry-flip-lock/template.py"><code>template.py</code></a></li></ul>
+<p><a class="button" href="https://github.com/shrutikadge/3d-prints/tree/main/prints/pantry-flip-lock">View the source on GitHub</a></p>
+</main>
+<footer class="site">Parametric models in Python. MIT licensed. Hobby prints, not certified products.</footer>
+</body>
+</html>
